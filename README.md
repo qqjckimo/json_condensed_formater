@@ -25,7 +25,7 @@ Formating JSON string in list element from this
 }
 ```
 to this, with specified property name : prop_a, prop_b
-```javascirpt
+```javascript
 {
     'prop_a': [1, 2, 3, 4, 5],
     'prop_b': [
