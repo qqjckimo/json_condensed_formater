@@ -13,6 +13,10 @@ define(['jquery'], function($) {
         prop_res = json_str.match(re);
         if (!prop_res) throw new Error('can not find porperty in json_str: [' + prop_name_str + ']');
 
+        if (prop_name_str == "payouts") {
+            console.log("debug");
+        }
+
         //
         var open_strs, close_strs;
         var object_open_brace, object_close_brace;
@@ -40,6 +44,7 @@ define(['jquery'], function($) {
 
             //
             var prop_end_pos, prop_indent_start, prop_indent_length, i, cc;
+            var tab_fix = 0;
 
             prop_indent_length = 0;
             for (i = prop_start_pos; i > 0; --i) {
@@ -47,6 +52,8 @@ define(['jquery'], function($) {
                 if (cc == '\n') {
                     prop_indent_start = i;
                     break;
+                } else if (cc == '\t') {
+                    tab_fix += 1;
                 }
             }
 
@@ -78,7 +85,7 @@ define(['jquery'], function($) {
                     }
                     //
                     if (prop_indent_length == 0) {
-                        prop_indent_length = i - prop_indent_start;
+                        prop_indent_length = (i - prop_indent_start - tab_fix) + tab_fix * 4;
                     }
                     //}
                     continue;
@@ -106,8 +113,10 @@ define(['jquery'], function($) {
                         new_line_cond.hit_sep = false;
                         new_line_cond.new_line = true;
                     } else if (new_line_cond.hit_sep) {
+                        // replace '\n' to single space ' '
                         json_str = json_str.substring(0, i) + ' ' + json_str.substring(i + 1);
                         total_length = json_str.length;
+                        new_line_cond.hit_sep = false;
                     } else {
                         // eliminate
                         json_str = json_str.substring(0, i) + json_str.substring(i + 1);
@@ -118,7 +127,7 @@ define(['jquery'], function($) {
                 //
                 else if (cc == ' ' || cc == '\t') {
                     if (!new_line_cond.hit_sep ||
-                        (new_line_cond.exit_scope && new_line_cond.hit_sep)) {
+                        (new_line_cond.hit_sep && new_line_cond.exit_scope)) {
                         // eliminate
                         json_str = json_str.substring(0, i) + json_str.substring(i + 1);
                         total_length = json_str.length;
