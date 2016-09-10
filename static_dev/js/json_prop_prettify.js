@@ -13,10 +13,6 @@ define(['jquery'], function($) {
         prop_res = json_str.match(re);
         if (!prop_res) throw new Error('can not find porperty in json_str: [' + prop_name_str + ']');
 
-        if (prop_name_str == "payouts") {
-            console.log("debug");
-        }
-
         //
         var open_strs, close_strs;
         var object_open_brace, object_close_brace;
