@@ -1,7 +1,7 @@
 [Demo](https://qqjckimo.github.io/json_condensed_formater/)
 
 ### Goal
-Formating JSON string in list element from this
+Formating JSON list elements from multiple line to single line :
 ```javascript
 {
     'prop_a': [1, 
@@ -26,7 +26,7 @@ Formating JSON string in list element from this
     ]
 }
 ```
-to this, with specified property name : prop_a, prop_b
+after formatted, with specified property name : prop_a, prop_b
 ```javascript
 {
     'prop_a': [1, 2, 3, 4, 5],
